@@ -19,8 +19,8 @@ namespace Kucheu.StardewValleyFishing
             float random = UnityEngine.Random.Range(0f, 1f);
             if (random < chance)
             {
-                float percent = UnityEngine.Random.Range(fishDiffuculty - 10f, fishDiffuculty + 10f) / 100f;
-                percent = Mathf.Clamp(percent, 0.1f, 1f);
+                float percent = UnityEngine.Random.Range(fishDiffuculty - 20f, fishDiffuculty - 5f) / 100f;
+                percent = Mathf.Clamp(percent, 0f, 1f);
                 float direction = UnityEngine.Random.Range(-fishPosition, 568 - fishPosition);
                 if(direction == 0f)
                 {
