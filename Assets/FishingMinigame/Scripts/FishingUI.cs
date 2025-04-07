@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Kucheu.StardewValleyFishing
+namespace Kucheu.FishingMinigame
 {
     public class FishingUI : MonoBehaviour
     {

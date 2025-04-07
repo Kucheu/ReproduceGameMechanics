@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Kucheu.StardewValleyFishing
+namespace Kucheu.FishingMinigame
 {
     public class FishingBarBehaviour
     {

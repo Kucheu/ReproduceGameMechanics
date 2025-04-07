@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Kucheu.StardewValleyFishing
+namespace Kucheu.FishingMinigame
 {
     public class FishingController : MonoBehaviour
     {

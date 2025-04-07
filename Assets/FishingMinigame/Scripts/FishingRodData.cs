@@ -1,4 +1,4 @@
-﻿namespace Kucheu.StardewValleyFishing
+﻿namespace Kucheu.FishingMinigame
 {
     public struct FishingRodData
     {

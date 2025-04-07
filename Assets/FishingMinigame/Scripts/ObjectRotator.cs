@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Kucheu.StardewValleyFishing
+namespace Kucheu.FishingMinigame
 {
     public class ObjectRotator
     {

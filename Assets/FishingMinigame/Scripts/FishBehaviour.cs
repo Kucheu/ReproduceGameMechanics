@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
-namespace Kucheu.StardewValleyFishing
+
+namespace Kucheu.FishingMinigame
 {
     public abstract class FishBehaviour
     {

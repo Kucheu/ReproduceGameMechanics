@@ -1,16 +1,15 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
-namespace Kucheu.StardewValleyFishing
+namespace Kucheu.FishingMinigame
 {
-    public class SliderColorChanger : MonoBehaviour
+    public class SliderHandleValueChanger : MonoBehaviour
     {
         [SerializeField]
         private Slider slider;
         [SerializeField]
-        private Gradient progressBarColorGradient;
-        [SerializeField]
-        private Image progressBarImage;
+        private TextMeshProUGUI handleText;
 
         private void OnEnable()
         {
@@ -25,7 +24,7 @@ namespace Kucheu.StardewValleyFishing
 
         private void ChangeColor(float value)
         {
-            progressBarImage.color = progressBarColorGradient.Evaluate(value);
+            handleText.text = value.ToString();
         }
     }
 }
