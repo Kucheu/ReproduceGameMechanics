@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Kucheu.GenshinCooking
+namespace Kucheu.CookingMinigame
 {
     [CreateAssetMenu(fileName = "CookingDifficultyData", menuName = "Kucheu/CookingDifficultyData")]
     public class CookingDifficultyData : ScriptableObject

@@ -5,7 +5,7 @@ using System;
 using System.Collections;
 using UnityEngine.UI;
 
-namespace Kucheu.GenshinCooking
+namespace Kucheu.CookingMinigame
 {
     public class CookingUI : MonoBehaviour
     {
@@ -17,6 +17,13 @@ namespace Kucheu.GenshinCooking
             public string resultText;
         }
 
+        [Serializable]
+        private struct ColorToDifficulty
+        {
+            public CookingDifficulty difficulty;
+            public Color difficultyColor;
+        }
+
         [SerializeField]
         private GameObject startUI;
         [SerializeField]
@@ -26,7 +33,13 @@ namespace Kucheu.GenshinCooking
 
         [Header("Start UI")]
         [SerializeField]
-        private TMP_Dropdown difficultyDropdown;
+        private DifficultyButton difficultyButtonPrefab;
+        [SerializeField]
+        private ToggleGroup difficultyButtonsGroup;
+        [SerializeField]
+        private Transform difficultyButtonsParent;
+        [SerializeField]
+        private List<ColorToDifficulty> colorsToDifficulty;
         [SerializeField]
         private CookingController cookingController;
 
@@ -46,15 +59,19 @@ namespace Kucheu.GenshinCooking
         [SerializeField]
         private Transform cookingIndicatorTransform;
 
+        private List<DifficultyButton> difficultyButtons;
+
         private void Start()
         {
-            difficultyDropdown.ClearOptions();
-            List<string> difficultyList = new();
+            difficultyButtons = new();
             foreach (var difficulty in Enum.GetValues(typeof(CookingDifficulty)))
             {
-                difficultyList.Add(difficulty.ToString());
+                var button = Instantiate(difficultyButtonPrefab, difficultyButtonsParent);
+                Color buttonColor = colorsToDifficulty.Find(x => x.difficulty == (CookingDifficulty)difficulty).difficultyColor;
+                button.Setup(buttonColor, (CookingDifficulty)difficulty, difficultyButtonsGroup);
+                difficultyButtons.Add(button);
             }
-            difficultyDropdown.AddOptions(difficultyList);
+            difficultyButtons[0].SelectButton();
         }
 
         private void Update()
@@ -69,10 +86,11 @@ namespace Kucheu.GenshinCooking
 
         public void OnCookingStart()
         {
-            cookingController.Setup((CookingDifficulty)difficultyDropdown.value);
-            SetupCookingUI();
+            var selectedButton = difficultyButtons.Find(x => x.IsSelected);
             startUI.SetActive(false);
             cookingUI.SetActive(true);
+            cookingController.Setup(selectedButton.Difficulty);
+            SetupCookingUI();
             cookingController.CookingEnd += OnFishingEnd;
         }
 

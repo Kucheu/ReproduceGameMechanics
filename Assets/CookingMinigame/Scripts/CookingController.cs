@@ -1,18 +1,20 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System;
+using System.Collections;
 
-namespace Kucheu.GenshinCooking
+namespace Kucheu.CookingMinigame
 {
     public class CookingController : MonoBehaviour
     {
+        private const float waitForStartTime = 0.5f;
+
         public event Action<CookingResult> CookingEnd;
 
         [SerializeField]
         private List<CookingDifficultyData> cookingDifficultyDatas;
         [SerializeField]
-        private float pointerSpeed;
-
+        private float pointerSpeed;        
 
         private bool isActive;
         private float goodPercent;
@@ -20,6 +22,7 @@ namespace Kucheu.GenshinCooking
         private float startGoodField;
         private float startPerfectField;
         private float currentPointerPositionPercent;
+        private WaitForSeconds waitForStart = new WaitForSeconds(waitForStartTime);
 
         public float CurrentPointerPositionPercent => currentPointerPositionPercent;
         public float StartGoodField => startGoodField;
@@ -35,19 +38,25 @@ namespace Kucheu.GenshinCooking
             startGoodField = UnityEngine.Random.Range(0f, 1f - goodPercent);
             startPerfectField = startGoodField + ((goodPercent - perfectPercent) / 2);
             currentPointerPositionPercent = 0f;
+            StartCoroutine(StartCookingCoroutine());
+        }
+
+        private IEnumerator StartCookingCoroutine()
+        {
+            yield return waitForStart;
             isActive = true;
         }
 
         private void Update()
         {
-            if(!isActive)
+            if (!isActive)
             {
                 return;
             }
-            
+
 
             currentPointerPositionPercent += pointerSpeed * Time.deltaTime;
-            if(currentPointerPositionPercent >= 1f)
+            if (currentPointerPositionPercent >= 1f)
             {
                 OnClick();
             }
@@ -56,7 +65,7 @@ namespace Kucheu.GenshinCooking
         public void OnClick()
         {
             isActive = false;
-            if( currentPointerPositionPercent >= startPerfectField && currentPointerPositionPercent <= startPerfectField + perfectPercent)
+            if (currentPointerPositionPercent >= startPerfectField && currentPointerPositionPercent <= startPerfectField + perfectPercent)
             {
                 CookingEnd?.Invoke(CookingResult.perfect);
                 return;

@@ -1,4 +1,4 @@
-﻿namespace Kucheu.GenshinCooking
+﻿namespace Kucheu.CookingMinigame
 {
     public enum CookingResult
     {

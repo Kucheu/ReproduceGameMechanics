@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   difficulty: 3
   goodPercent: 0.06
-  perfectPercent: 0.01
+  perfectPercent: 0.02
