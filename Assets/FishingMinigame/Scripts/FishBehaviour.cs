@@ -3,9 +3,8 @@ using UnityEngine;
 
 namespace Kucheu.FishingMinigame
 {
-    public abstract class FishBehaviour
+    public abstract class FishBehaviour : IFish
     {
-        internal float fishPosition = 30f;
         internal float fishDiffuculty;
         internal float fishTargetPosition = 30f;
         internal bool hasTarget;
@@ -15,7 +14,7 @@ namespace Kucheu.FishingMinigame
             fishDiffuculty = fishData.fishDifficulty;
         }
 
-        internal virtual bool TrySelectNewTargetPosition(float chance)
+        internal virtual bool TrySelectNewTargetPosition(ref float fishPosition, float chance)
         {
             float random = UnityEngine.Random.Range(0f, 1f);
             if (random < chance)
@@ -41,9 +40,9 @@ namespace Kucheu.FishingMinigame
             return fishDiffuculty / 3000f;
         }
 
-        public virtual float Move()
+        public virtual void Move(ref float fishPosition)
         {
-            TrySelectNewTargetPosition(GetNewTargetChance());
+            TrySelectNewTargetPosition(ref fishPosition, GetNewTargetChance());
             if(hasTarget && Math.Abs(fishPosition - fishTargetPosition) < 2f)
             {
                 hasTarget = false;
@@ -55,7 +54,6 @@ namespace Kucheu.FishingMinigame
                 fishPosition += currentAcceleration;
                 fishPosition = Math.Clamp(fishPosition, 0f, 568f - 32f);
             }
-            return fishPosition;
         }
     }
 
@@ -73,14 +71,14 @@ namespace Kucheu.FishingMinigame
             return base.GetNewTargetChance() * 15f;
         }
 
-        internal override bool TrySelectNewTargetPosition(float chance)
+        internal override bool TrySelectNewTargetPosition(ref float fishPosition, float chance)
         {
             if(hasTarget)
             {
                 return false;
             }
 
-            return base.TrySelectNewTargetPosition(chance);
+            return base.TrySelectNewTargetPosition(ref fishPosition, chance);
         }
 
         public SmoothFishBehaviour(FishData fishData) : base(fishData)
@@ -104,11 +102,10 @@ namespace Kucheu.FishingMinigame
             additionalSpeed *= movementDirection == FishContinuousMovementDirection.up ? 1 : -1;
         }
 
-        public override float Move()
+        public override void Move(ref float fishPosition)
         {
-            var baseMove = base.Move();
-            fishPosition = Math.Clamp(baseMove + additionalSpeed, 0f, 568f - 32f);
-            return fishPosition;
+            base.Move(ref fishPosition);
+            fishPosition = Math.Clamp(fishPosition + additionalSpeed, 0f, 568f - 32f);
         }
     }
 
@@ -123,7 +120,7 @@ namespace Kucheu.FishingMinigame
             return base.GetNewTargetChance() * 2;
         }
 
-        internal override bool TrySelectNewTargetPosition(float chance)
+        internal override bool TrySelectNewTargetPosition(ref float fishPosition, float chance)
         {
             float random = UnityEngine.Random.Range(0f, 1f);
             if (random < chance)

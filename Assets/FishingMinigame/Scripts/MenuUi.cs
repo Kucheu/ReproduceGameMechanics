@@ -61,7 +61,6 @@ namespace Kucheu.FishingMinigame
 
         public void StartFishing()
         {
-
             fishingController.Setup(GetFishRodData(), GetFishData());
             fishinUI.Setup();
             fishingController.FishingEnd += OnFishingEnd;

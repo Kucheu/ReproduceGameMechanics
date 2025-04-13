@@ -5,7 +5,6 @@ namespace Kucheu.FishingMinigame
     public class FishingBarBehaviour
     {
         private FishingRodData rodData;
-        float barPosition = 30f;
         float barSize;
         float barSpeed;
         int numberOfBarbedHooks;
@@ -17,7 +16,7 @@ namespace Kucheu.FishingMinigame
             numberOfBarbedHooks = (rodData.firstTackle == TackleType.BarbedHook ? 1 : 0) + (rodData.secondTackle == TackleType.BarbedHook ? 1 : 0);
         }
 
-        public float CalculateBarPosition(bool isKeyPressed, float fishPosition, bool isFishInBar)
+        public void  Move(ref float barPosition, bool isKeyPressed, float fishPosition, bool isFishInBar)
         {
             float gravity = 0f;
             if (isKeyPressed && barPosition == 0f)
@@ -53,7 +52,6 @@ namespace Kucheu.FishingMinigame
                 barSpeed = rodData.firstTackle == TackleType.LeadBobber || rodData.secondTackle == TackleType.LeadBobber ? 0f : (-barSpeed * 3/4);
             }
             barPosition = Math.Clamp(barPosition, 0f, 568f - barSize);
-            return barPosition;
         }
 
         public float GetBarSize()

@@ -6,13 +6,12 @@ namespace Kucheu.FishingMinigame
 {
     public class FishingController : MonoBehaviour
     {
-
         public event Action<bool> FishingEnd;
 
         [SerializeField]
         private InputActionReference keyInput;
 
-        private FishBehaviour fishBehaviour;
+        private IFish fishBehaviour;
         private FishingBarBehaviour fishingBar;
         private float fishPosition;
         private float barSize;
@@ -31,13 +30,12 @@ namespace Kucheu.FishingMinigame
 
         public void Setup(FishingRodData rodData, FishData fishData)
         {
-            fishBehaviour = CreateFishBehaviour(fishData);
+            fishBehaviour = SetFishBehaviourStrategy(fishData);
             fishingBar = new FishingBarBehaviour(rodData);
             fishingRodData = rodData;
             barSize = fishingBar.GetBarSize();
             catchingProgress = 0.3f;
             isActive = true;
-            Time.fixedDeltaTime = 0.01f;
         }
 
         private void FixedUpdate()
@@ -46,8 +44,8 @@ namespace Kucheu.FishingMinigame
             {
                 return;
             }
-            fishPosition = fishBehaviour.Move();
-            barPosition = fishingBar.CalculateBarPosition(keyInput.action.IsPressed(), fishPosition, isFishInBar);
+            fishBehaviour.Move(ref fishPosition);
+            fishingBar.Move(ref barPosition, keyInput.action.IsPressed(), fishPosition, isFishInBar);
             isFishInBar = fishPosition >= barPosition && fishPosition + 32f <= barPosition + barSize;
             catchingProgress += GetCatchingProgress();
 
@@ -75,7 +73,7 @@ namespace Kucheu.FishingMinigame
             return catchingProgressChange;
         }
 
-        private FishBehaviour CreateFishBehaviour(FishData fishData)
+        private IFish SetFishBehaviourStrategy(FishData fishData)
         {
             return fishData.fishType switch
             {
