@@ -28,11 +28,11 @@ Just moved them consistently in the right direction, up or down depends on fish 
 
 As for the code I have:
  - two scripts responsible for the UI, one for setting menu and another one for minigame ui
-([MenuUI.cs](FishingMinigame/Scripts/MenuUi.cs)
-and [FishingUI.cs](FishingMinigame/Scripts/FishingUI.cs))
- - the main script responsible for the minigame ([FishingController.cs](FishingMinigame/Scripts/FishingController.cs))
- - various fish behaviors ([FishBehaviour.cs](FishingMinigame/Scripts/FishBehaviour.cs))
- - fishing bar behaviour ([FishingBarBehaviour.cs](FishingMinigame/Scripts/FishingBarBehaviour.cs))
+([MenuUI.cs](Scripts/MenuUi.cs)
+and [FishingUI.cs](Scripts/FishingUI.cs))
+ - the main script responsible for the minigame ([FishingController.cs](Scripts/FishingController.cs))
+ - various fish behaviors ([FishBehaviour.cs](Scripts/FishBehaviour.cs))
+ - fishing bar behaviour ([FishingBarBehaviour.cs](Scripts/FishingBarBehaviour.cs))
 
 
 The behavior of the fish did not differ much from each other, so inheritance seems to have worked very well in this case. 
